@@ -1,0 +1,26 @@
+@import "./constants/colors";
+
+* {
+  margin: 0;
+  padding: 0;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+body {
+  color: $white;
+  background-color: $gray-2;
+  -webkit-font-smoothing: antialiased;
+}
+body, input, textarea, button {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+}
+button {
+  cursor: pointer;
+}
