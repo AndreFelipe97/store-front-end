@@ -1,0 +1,15 @@
+@import "../../../styles/constants/colors";
+
+.new-transaction-button-container {
+  height: 5rem;
+  width: 15.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $green;
+  border: none;
+  border-radius: 6px;
+  color: $white;
+  font-weight: bold;
+  font-size: 1.6rem;
+}
