@@ -1,0 +1,40 @@
+@import "../../../styles/constants/colors";
+
+.total-card-values-container {
+  width: 35.2rem;
+  height: 13.7rem;
+  border-radius: 6px;
+  background-color: $green-dark;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 24px 24px 24px 32px;
+}
+
+.header-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+
+  h1 {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    color: $gray-6;
+  }
+
+  img {
+    height: 3.2rem;
+    width: 3.2rem;
+  }
+}
+
+.value {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 3.2rem;
+  color: $white;
+}
