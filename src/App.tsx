@@ -1,13 +1,31 @@
-import "./App.scss";
-import { ConfirmTransactionButton } from "./components/Buttons/ConfirmTransaction";
-import { NewTransactionButton } from "./components/Buttons/NewTransaction";
+import styles from "./App.module.scss";
+import { SearchTransactionButton } from "./components/Buttons/SearchTransaction";
+import { TotalCardValues } from "./components/Card/Total";
+import { TransactionCardValues } from "./components/Card/TransactionCardValues";
+import { Inputs } from "./components/Inputs";
+import { Header } from "./components/Layout/Header";
 
 function App() {
   return (
     <>
-      <h1>Store Front End</h1>
-      <NewTransactionButton />
-      <ConfirmTransactionButton />
+      <Header />
+      <main className={styles["container"]}>
+        <div className={styles["content"]}>
+          <div className={styles["values-content"]}>
+            <TransactionCardValues
+              type="deposit"
+              title="Entradas"
+              value={500}
+            />
+            <TransactionCardValues type="withdraw" title="Saidas" value={500} />
+            <TotalCardValues />
+          </div>
+          <div className={styles["search"]}>
+            <Inputs label="Buscar uma transação" /> <SearchTransactionButton />
+          </div>
+          <div>Table</div>
+        </div>
+      </main>
     </>
   );
 }
