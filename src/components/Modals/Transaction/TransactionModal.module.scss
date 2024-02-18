@@ -78,6 +78,11 @@
     &:hover {
       filter: brightness(0.9);
     }
+
+    &:disabled {
+      background-color: rgba($green, 0.5);
+      cursor: not-allowed;
+    }
   }
 }
 

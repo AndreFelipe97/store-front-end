@@ -9,8 +9,23 @@ import incomeWhite from "../../../assets/Tipo=arrow-circle-up-regular-white.svg"
 import outcomeWhite from "../../../assets/Tipo=arrow-circle-down-regular-white.svg";
 
 import styles from "./TransactionModal.module.scss";
+import { useForm } from "react-hook-form";
 
 Modal.setAppElement("#root");
+
+interface FormData {
+  title: string;
+  value: number;
+  category: string;
+}
+
+interface TransactionData {
+  id: number;
+  title: string;
+  value: number;
+  category: string;
+  type: string;
+}
 
 export function TransactionModal() {
   const [modalNewTransactionIsOpen, setModalNewTransactionIsOpen] =
@@ -18,11 +33,54 @@ export function TransactionModal() {
 
   const [transactionType, setTransactionType] = useState("deposit");
 
+  const [datas, setData] = useState<TransactionData[]>([]);
+
+  const { register, reset, handleSubmit, watch } = useForm<FormData>();
+
+  function onSubmit(data: FormData) {
+    const newTransaction = {
+      id: Math.floor(Math.random() * 1000),
+      title: data.title,
+      value: data.value,
+      category: data.category,
+      type: transactionType,
+    };
+    if (datas.length > 0) {
+      localStorage.setItem(
+        "transactions",
+        JSON.stringify([...datas, newTransaction])
+      );
+    } else {
+      localStorage.setItem("transactions", JSON.stringify([newTransaction]));
+    }
+    reset({
+      title: "",
+      value: 0,
+      category: "",
+    });
+    setModalNewTransactionIsOpen(false);
+  }
+
   function handleOpenNewTransactionModal() {
+    const storedData = localStorage.getItem("transactions");
+    if (storedData) {
+      setData(JSON.parse(storedData));
+    }
+    reset({
+      title: "",
+      value: 0,
+      category: "",
+    });
     setModalNewTransactionIsOpen(true);
+    setTransactionType("deposit");
   }
 
   function handleCloseNewTransactionModal() {
+    reset({
+      title: "",
+      value: 0,
+      category: "",
+    });
     setModalNewTransactionIsOpen(false);
   }
 
@@ -42,11 +100,22 @@ export function TransactionModal() {
         >
           <img src={close} alt="" />
         </button>
-        <form className={styles["form-container"]}>
+        <form
+          className={styles["form-container"]}
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <h2>Nova transação</h2>
-          <Inputs label="Título" />
-          <Inputs label="Valor" />
-          <Inputs label="Categoria" />
+          <Inputs label="Título" register={{ ...register("title") }} />
+          <Inputs
+            label="Valor"
+            {...register("value")}
+            register={{ ...register("value") }}
+          />
+          <Inputs
+            label="Categoria"
+            {...register("category")}
+            register={{ ...register("category") }}
+          />
 
           <div className={styles["type-container"]}>
             <button
@@ -79,7 +148,15 @@ export function TransactionModal() {
             </button>
           </div>
 
-          <button className={styles["register-button"]} type="submit">
+          <button
+            className={styles["register-button"]}
+            type="submit"
+            disabled={
+              !(watch("title") && watch("category") && watch("value"))
+                ? true
+                : false
+            }
+          >
             Cadastrar
           </button>
         </form>
