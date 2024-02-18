@@ -1,8 +1,17 @@
 import styles from "./NewTransaction.module.scss";
 
-export function NewTransactionButton() {
+interface NewTransactionButtonProps {
+  onOpenModal: () => void;
+}
+
+export function NewTransactionButton({
+  onOpenModal,
+}: NewTransactionButtonProps) {
   return (
-    <button className={styles["new-transaction-button-container"]}>
+    <button
+      className={styles["new-transaction-button-container"]}
+      onClick={onOpenModal}
+    >
       Nova transação
     </button>
   );

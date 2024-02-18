@@ -1,10 +1,10 @@
 import styles from "./App.module.scss";
-import { NewTransactionButton } from "./components/Buttons/NewTransaction";
 import { SearchTransactionButton } from "./components/Buttons/SearchTransaction";
 import { TotalCardValues } from "./components/Card/Total";
 import { TransactionCardValues } from "./components/Card/TransactionCardValues";
 import { Inputs } from "./components/Inputs";
 import { Header } from "./components/Layout/Header";
+import { TransactionModal } from "./components/Modals/Transaction";
 import { TransactionTable } from "./components/TransactionTable";
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
             <TotalCardValues />
           </div>
           <div className={styles["new-transaction-button"]}>
-            <NewTransactionButton />
+            <TransactionModal />
           </div>
           <div className={styles["search"]}>
             <Inputs label="Buscar uma transação" /> <SearchTransactionButton />

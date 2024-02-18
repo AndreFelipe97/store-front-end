@@ -18,6 +18,10 @@
       align-items: center;
       flex-direction: row;
       gap: 2rem;
+
+      @media (max-width: 600px) {
+        flex-direction: column;
+      }
     }
 
     .new-transaction-button {
