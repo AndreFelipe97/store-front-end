@@ -1,25 +1,69 @@
+import { useContext, useEffect, useState } from "react";
 import styles from "./TransactionTable.module.scss";
+import { TransactionsContext } from "../../contexts/Transactions";
+
+interface TransactionsData {
+  id: number;
+  title: string;
+  value: string;
+  category: string;
+  type: string;
+  date: string;
+}
 
 export function TransactionTable() {
+  const { data } = useContext(TransactionsContext);
+  const [transactions, setTransactions] = useState<TransactionsData[]>([]);
+
+  useEffect(() => {
+    const newTransactions = data.map((transaction) => {
+      return {
+        ...transaction,
+        date: new Date().toLocaleDateString("pt-BR", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }),
+        value: new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        }).format(transaction.value),
+      };
+    });
+    setTransactions(newTransactions);
+  }, [data]);
+
   return (
-    <div className={styles["transaction-table-container"]}>
-      <table>
-        <thead />
-        <tbody>
-          <tr>
-            <td>Desenvolvimento de website</td>
-            <td className="deposit">R$ 12.000</td>
-            <td>Desenvolvimento</td>
-            <td>12/04/2021</td>
-          </tr>
-          <tr>
-            <td>Aluguel</td>
-            <td className="withdraw">- R$ 1.100</td>
-            <td>Casa</td>
-            <td>12/04/2021</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <>
+      {transactions ? (
+        <div className={styles["transaction-table-container"]}>
+          <table>
+            <thead />
+            <tbody>
+              {transactions.map((transaction) => (
+                <tr key={transaction.id}>
+                  <td>{transaction.title}</td>
+                  <td
+                    className={`
+                    ${styles["value"]}
+                    ${
+                      transaction.type === "deposit"
+                        ? `${styles["deposit"]}`
+                        : `${styles["withdraw"]}`
+                    }`}
+                  >
+                    {transaction.type === "withdraw" && "-"} {transaction.value}
+                  </td>
+                  <td>{transaction.category}</td>
+                  <td>{transaction.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div>Sem dados</div>
+      )}
+    </>
   );
 }

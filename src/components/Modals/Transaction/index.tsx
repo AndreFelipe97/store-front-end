@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Modal from "react-modal";
 import { NewTransactionButton } from "../../Buttons/NewTransaction";
 import { Inputs } from "../../Inputs";
@@ -10,6 +10,7 @@ import outcomeWhite from "../../../assets/Tipo=arrow-circle-down-regular-white.s
 
 import styles from "./TransactionModal.module.scss";
 import { useForm } from "react-hook-form";
+import { TransactionsContext } from "../../../contexts/Transactions";
 
 Modal.setAppElement("#root");
 
@@ -17,14 +18,7 @@ interface FormData {
   title: string;
   value: number;
   category: string;
-}
-
-interface TransactionData {
-  id: number;
-  title: string;
-  value: number;
-  category: string;
-  type: string;
+  date: Date;
 }
 
 export function TransactionModal() {
@@ -33,9 +27,9 @@ export function TransactionModal() {
 
   const [transactionType, setTransactionType] = useState("deposit");
 
-  const [datas, setData] = useState<TransactionData[]>([]);
-
   const { register, reset, handleSubmit, watch } = useForm<FormData>();
+
+  const { setDataTransaction } = useContext(TransactionsContext);
 
   function onSubmit(data: FormData) {
     const newTransaction = {
@@ -44,15 +38,11 @@ export function TransactionModal() {
       value: data.value,
       category: data.category,
       type: transactionType,
+      date: new Date(),
     };
-    if (datas.length > 0) {
-      localStorage.setItem(
-        "transactions",
-        JSON.stringify([...datas, newTransaction])
-      );
-    } else {
-      localStorage.setItem("transactions", JSON.stringify([newTransaction]));
-    }
+
+    setDataTransaction(newTransaction);
+
     reset({
       title: "",
       value: 0,
@@ -62,10 +52,6 @@ export function TransactionModal() {
   }
 
   function handleOpenNewTransactionModal() {
-    const storedData = localStorage.getItem("transactions");
-    if (storedData) {
-      setData(JSON.parse(storedData));
-    }
     reset({
       title: "",
       value: 0,

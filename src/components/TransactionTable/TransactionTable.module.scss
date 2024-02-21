@@ -9,17 +9,24 @@
       background-color: $gray-3;
       border-radius: 5px;
       height: 66px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 1.6rem;
+      padding: 2rem 1.6rem;
 
       td {
         font-family: "Roboto", Arial, sans-serif;
         font-size: 1.6rem;
         font-weight: 400;
         color: $gray-6;
+        padding: 2rem 1.6rem;
       }
+
+      .deposit {
+        color: $green;
+      }
+
+      .withdraw {
+        color: $red;
+      }
+
 
       &:not(:last-child) {
         margin-bottom: 0.8rem;
