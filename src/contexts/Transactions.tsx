@@ -44,6 +44,7 @@ function TransactionsProvider({ children }: TransactionsProviderProps) {
       : [];
     transactions.push(dataTransaction);
     localStorage.setItem("transactions", JSON.stringify(transactions));
+    return;
   }
 
   return (
