@@ -4,10 +4,10 @@ import { SearchTransactionButton } from "./components/Buttons/SearchTransaction"
 import { TotalCardValues } from "./components/Card/Total";
 import { TransactionCardValues } from "./components/Card/TransactionCardValues";
 import { Inputs } from "./components/Inputs";
-import { Header } from "./components/Layout/Header";
 import { TransactionModal } from "./components/Modals/Transaction";
-import { TransactionTable } from "./components/TransactionTable";
+import { TransactionTable } from "./components/Tables/TransactionTable";
 import { useForm } from "react-hook-form";
+import { Layout } from "./components/Layout";
 
 interface FormData {
   search: string;
@@ -71,8 +71,7 @@ function App() {
   }
 
   return (
-    <div>
-      <Header />
+    <Layout>
       <main className={styles["container"]}>
         <div className={styles["content"]}>
           <div className={styles["values-content"]}>
@@ -101,7 +100,7 @@ function App() {
           <TransactionTable dataFiltered={dataFiltered} />
         </div>
       </main>
-    </div>
+    </Layout>
   );
 }
 

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import icon from "../../../assets/Ignite-simbol.svg";
 import styles from "./Header.module.scss";
 
@@ -11,10 +12,10 @@ export function Header() {
         </div>
         <ul className={styles["navbar"]}>
           <li>
-            <a href="#">Dashboard</a>
+            <Link to="/">Dashboard</Link>
           </li>
           <li>
-            <a href="#">Produtos</a>
+            <Link to="/produtos">Produtos</Link>
           </li>
         </ul>
       </div>

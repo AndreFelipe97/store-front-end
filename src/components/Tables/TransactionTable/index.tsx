@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./TransactionTable.module.scss";
-import { TransactionsContext } from "../../contexts/Transactions";
+import { TransactionsContext } from "../../../contexts/Transactions";
 
 interface TransactionsData {
   id: number;
