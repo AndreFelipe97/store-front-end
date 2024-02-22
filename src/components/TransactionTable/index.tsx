@@ -11,7 +11,11 @@ interface TransactionsData {
   date: string;
 }
 
-export function TransactionTable() {
+interface TransactionTableProps {
+  dataFiltered: TransactionsData[];
+}
+
+export function TransactionTable({ dataFiltered }: TransactionTableProps) {
   const { data } = useContext(TransactionsContext);
   const [transactions, setTransactions] = useState<TransactionsData[]>([]);
 
@@ -32,6 +36,38 @@ export function TransactionTable() {
     });
     setTransactions(newTransactions);
   }, [data]);
+
+  if (dataFiltered?.length > 0) {
+    return (
+      <>
+        <div className={styles["transaction-table-container"]}>
+          <table>
+            <thead />
+            <tbody>
+              {dataFiltered.map((transaction) => (
+                <tr key={transaction.id}>
+                  <td>{transaction.title}</td>
+                  <td
+                    className={`
+                    ${styles["value"]}
+                    ${
+                      transaction.type === "deposit"
+                        ? `${styles["deposit"]}`
+                        : `${styles["withdraw"]}`
+                    }`}
+                  >
+                    {transaction.type === "withdraw" && "-"} {transaction.value}
+                  </td>
+                  <td>{transaction.category}</td>
+                  <td>{transaction.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>

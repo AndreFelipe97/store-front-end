@@ -13,4 +13,8 @@
   font-weight: bold;
   font-size: 1.6rem;
   background-color: $gray-2;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }

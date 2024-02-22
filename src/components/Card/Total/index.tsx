@@ -21,7 +21,7 @@ export function TotalCardValues() {
       const deposit = transactionsParsed.reduce(
         (acc: number, transaction: TransactionsData) => {
           if (transaction.type === "deposit") {
-            return acc + transaction.value;
+            return acc + Number(transaction.value);
           }
           return acc;
         },
@@ -30,7 +30,7 @@ export function TotalCardValues() {
       const withdraw = transactionsParsed.reduce(
         (acc: number, transaction: TransactionsData) => {
           if (transaction.type === "withdraw") {
-            return acc + transaction.value;
+            return acc + Number(transaction.value);
           }
           return acc;
         },
@@ -40,6 +40,12 @@ export function TotalCardValues() {
         style: "currency",
         currency: "BRL",
       }).format(deposit - withdraw);
+      setValueFormated(newValue);
+    } else {
+      const newValue = new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(0);
       setValueFormated(newValue);
     }
   }, []);

@@ -7,28 +7,44 @@ import { Inputs } from "./components/Inputs";
 import { Header } from "./components/Layout/Header";
 import { TransactionModal } from "./components/Modals/Transaction";
 import { TransactionTable } from "./components/TransactionTable";
+import { useForm } from "react-hook-form";
+
+interface FormData {
+  search: string;
+}
+
+interface TransactionData {
+  id: number;
+  title: string;
+  value: number;
+  category: string;
+  type: string;
+  date: Date;
+}
 
 function App() {
   const [deposit, setDeposit] = useState(0);
   const [withdraw, setWithdraw] = useState(0);
+  const { register, handleSubmit, watch } = useForm<FormData>();
+  const [dataFiltered, setDataFiltered] = useState([]);
 
   useEffect(() => {
     const transactions = localStorage.getItem("transactions");
     if (transactions) {
       const transactionsParsed = JSON.parse(transactions);
       const deposit = transactionsParsed.reduce(
-        (acc: number, transaction: any) => {
+        (acc: number, transaction: TransactionData) => {
           if (transaction.type === "deposit") {
-            return acc + transaction.value;
+            return acc + Number(transaction.value);
           }
           return acc;
         },
         0
       );
       const withdraw = transactionsParsed.reduce(
-        (acc: number, transaction: any) => {
+        (acc: number, transaction: TransactionData) => {
           if (transaction.type === "withdraw") {
-            return acc + transaction.value;
+            return acc + Number(transaction.value);
           }
           return acc;
         },
@@ -38,6 +54,21 @@ function App() {
       setWithdraw(withdraw);
     }
   }, [deposit, withdraw]);
+
+  useEffect(() => {
+    setDataFiltered([]);
+  }, [watch("search")]);
+
+  function onSubmit(data: FormData) {
+    const transactions = localStorage.getItem("transactions")
+      ? JSON.parse(String(localStorage.getItem("transactions")))
+      : [];
+    const filterTransactions = transactions.filter(
+      (transaction: TransactionData) =>
+        transaction.title.toLowerCase().includes(data.search.toLowerCase())
+    );
+    setDataFiltered(filterTransactions);
+  }
 
   return (
     <div>
@@ -60,10 +91,14 @@ function App() {
           <div className={styles["new-transaction-button"]}>
             <TransactionModal />
           </div>
-          <div className={styles["search"]}>
-            <Inputs label="Buscar uma transação" /> <SearchTransactionButton />
-          </div>
-          <TransactionTable />
+          <form className={styles["search"]} onSubmit={handleSubmit(onSubmit)}>
+            <Inputs
+              label="Buscar uma transação"
+              register={{ ...register("search") }}
+            />
+            <SearchTransactionButton disabled={!watch("search")} />
+          </form>
+          <TransactionTable dataFiltered={dataFiltered} />
         </div>
       </main>
     </div>
