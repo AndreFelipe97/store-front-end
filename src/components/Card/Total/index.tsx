@@ -1,54 +1,22 @@
+import { useEffect, useState } from "react";
 import dolarIcon from "../../../assets/Tipo=currency-dollar-regular.svg";
 import styles from "./Total.module.scss";
-import { useEffect, useState } from "react";
 
-interface TransactionsData {
-  id: number;
-  title: string;
+interface TotalCardValuesProps {
   value: number;
-  category: string;
-  type: string;
-  date: Date;
 }
 
-export function TotalCardValues() {
-  const [valueFormated, setValueFormated] = useState("");
+export function TotalCardValues({ value }: TotalCardValuesProps) {
+  const [valueFormated, setValueFormated] = useState<string>("");
 
   useEffect(() => {
-    const transactions = localStorage.getItem("transactions");
-    if (transactions) {
-      const transactionsParsed = JSON.parse(transactions);
-      const deposit = transactionsParsed.reduce(
-        (acc: number, transaction: TransactionsData) => {
-          if (transaction.type === "deposit") {
-            return acc + Number(transaction.value);
-          }
-          return acc;
-        },
-        0
-      );
-      const withdraw = transactionsParsed.reduce(
-        (acc: number, transaction: TransactionsData) => {
-          if (transaction.type === "withdraw") {
-            return acc + Number(transaction.value);
-          }
-          return acc;
-        },
-        0
-      );
-      const newValue = new Intl.NumberFormat("pt-BR", {
+    setValueFormated(
+      new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL",
-      }).format(deposit - withdraw);
-      setValueFormated(newValue);
-    } else {
-      const newValue = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      }).format(0);
-      setValueFormated(newValue);
-    }
-  }, []);
+      }).format(value)
+    );
+  }, [value]);
 
   return (
     <div className={styles["total-card-values-container"]}>

@@ -12,6 +12,9 @@ interface TransactionsData {
 
 interface TransactionsContext {
   data: Array<TransactionsData>;
+  deposit: number;
+  withdraw: number;
+  total: number;
   setDataTransaction: (data: TransactionsData) => void;
 }
 
@@ -23,6 +26,9 @@ interface TransactionsProviderProps {
 
 function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [data, setData] = useState<Array<TransactionsData>>([]);
+  const [deposit, setDeposit] = useState<number>(0);
+  const [withdraw, setWithdraw] = useState<number>(0);
+  const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
     const transactions = localStorage.getItem("transactions");
@@ -36,6 +42,23 @@ function TransactionsProvider({ children }: TransactionsProviderProps) {
     }
   }, []);
 
+  useEffect(() => {
+    let depositValue = 0;
+    let withdrawValue = 0;
+
+    data.forEach((transaction) => {
+      if (transaction.type === "deposit") {
+        depositValue += transaction.value;
+      } else {
+        withdrawValue += transaction.value;
+      }
+    });
+
+    setDeposit(depositValue);
+    setWithdraw(withdrawValue);
+    setTotal(depositValue - withdrawValue);
+  }, [data]);
+
   function setDataTransaction(dataTransaction: TransactionsData) {
     setData([...data, dataTransaction]);
 
@@ -48,7 +71,9 @@ function TransactionsProvider({ children }: TransactionsProviderProps) {
   }
 
   return (
-    <TransactionsContext.Provider value={{ data, setDataTransaction }}>
+    <TransactionsContext.Provider
+      value={{ data, deposit, withdraw, total, setDataTransaction }}
+    >
       {children}
     </TransactionsContext.Provider>
   );
