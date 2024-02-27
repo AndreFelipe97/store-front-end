@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -80px;
+  width: 100%;
+
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 1120px;
+
+    .values-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      gap: 2rem;
+
+      @media (max-width: 600px) {
+        flex-direction: column;
+      }
+    }
+
+    .new-transaction-button {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+      margin-top: 6.4rem;
+      margin-bottom: 2.4rem;
+    }
+  
+    .search {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+      gap: 1.6rem;
+      margin-bottom: 2.4rem;
+    }
+  }
+}
