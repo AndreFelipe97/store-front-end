@@ -1,18 +1,21 @@
 import Login from "./pages/login";
-import Dashbard from "./pages/dashboard";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isNotAuthenticated, setIsNotAuthenticated] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const auth = localStorage.getItem("auth");
-    if (auth) {
-      setIsAuthenticated(true);
+    if (!auth) {
+      setIsNotAuthenticated(true);
+    } else {
+      navigate('/dashboard')
     }
   }, []);
 
-  return <>{!isAuthenticated ? <Login /> : <Dashbard />}</>;
+  return <>{isNotAuthenticated && <Login />}</>;
 }
 
 export default App;

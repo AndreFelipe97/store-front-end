@@ -24,7 +24,7 @@ interface TransactionData {
   date: Date;
 }
 
-export default function Dashbard() {
+export default function Dashboard() {
   const { deposit, withdraw, total } = useContext(TransactionsContext);
   const { register, handleSubmit, watch } = useForm<FormData>();
   const [dataFiltered, setDataFiltered] = useState([]);
