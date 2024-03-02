@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useEffect } from "react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface TransactionsData {
   id: number;
