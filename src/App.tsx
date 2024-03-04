@@ -1,6 +1,5 @@
 import Login from "./pages/login";
 import { useEffect, useState } from "react";
-import { FaHeartPulse } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 function App() {
@@ -12,7 +11,6 @@ function App() {
     if (!auth) {
       setIsNotAuthenticated(true);
     } else {
-      setIsNotAuthenticated(false);
       navigate('/dashboard')
     }
   }, []);

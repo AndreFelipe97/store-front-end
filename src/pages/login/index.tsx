@@ -8,7 +8,7 @@ export default function Login() {
   async function handleLogin() {
     const response = await signInWithGooglePopup();
     localStorage.setItem("auth", JSON.stringify(response.user));
-    navigate('/')
+    navigate('/dashboard')
   }
 
   return (
